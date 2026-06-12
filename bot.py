@@ -1,14 +1,20 @@
 #Pulse-Daily Summary Bot
 #Fetches: weather(wttr.in) + a quote(zenquotes.io)
 #Runs: everyday at 8 AM IST via GitHub Actions
+
+
 import requests
+import os
+import smtplib
+from email.mime.text import MIMEText
 from datetime import date
+
 
 def get_weather(city="Thiruvananthapuram"):
     """Fetch today's weather as a one-line text summary."""
     url=f"https://wttr.in/{city}?format=3"
     try:
-        response=requests.get(url, timeout=10)#check here
+        response=requests.get(url, timeout=10)
         response.raise_for_status()
         return response.text.strip()
     except Exception as e:
@@ -60,7 +66,16 @@ def run():
 if __name__=="__main__":
     run()
 
-    
+def send_email(summary_text):
+    sender = os.environ.get("annaroyktm@gmail.com")
+    password = os.environ.get("thvq acrh lkub hndk")
+    receiver = os.environ.get("annaroyktm@gmail.com")
+    msg= MIMEText(summary_text)
+    msg["Subject"] = "Pulse - Daily Summary"
+    msg["From"] = sender
+    msg["To"] = receiver
 
-
-
+    with smtplib.SMTP_SSL("smtp.gmail.com",465) as server:
+        server.login(sender,password)
+        server.send_message(msg)
+    print("Email sent.")
