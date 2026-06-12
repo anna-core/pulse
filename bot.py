@@ -4,25 +4,9 @@
 
 
 import requests
-import os
-import smtplib
-from email.mime.text import MIMEText
 from datetime import date
 
-def send_email(summary_text):
-    sender = os.environ.get("EMAIL_ADDRESS")
-    password = os.environ.get("EMAIL_PASSWORD")
-    receiver = os.environ.get("RECEIVER_EMAIL")
-    msg= MIMEText(summary_text)
-    msg["Subject"] = "Pulse - Daily Summary"
-    msg["From"] = sender
-    msg["To"] = receiver
 
-    with smtplib.SMTP_SSL("smtp.gmail.com",465) as server:
-        server.login(sender,password)
-        server.send_message(msg)
-    print("Email sent.")
-    
 def get_weather(city="Thiruvananthapuram"):
     """Fetch today's weather as a one-line text summary."""
     url=f"https://wttr.in/{city}?format=3"
@@ -75,7 +59,6 @@ def run():
         f.write(summary)
 
     print("Pulse ran successfully.")
-    send_email(summary)
 
 if __name__=="__main__":
     run()
