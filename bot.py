@@ -67,9 +67,9 @@ if __name__=="__main__":
     run()
 
 def send_email(summary_text):
-    sender = os.environ.get("annaroyktm@gmail.com")
-    password = os.environ.get("thvq acrh lkub hndk")
-    receiver = os.environ.get("annaroyktm@gmail.com")
+    sender = os.environ.get("EMAIL_ADDRESS")
+    password = os.environ.get("EMAIL_PASSWORD")
+    receiver = os.environ.get("RECEIVER_EMAIL")
     msg= MIMEText(summary_text)
     msg["Subject"] = "Pulse - Daily Summary"
     msg["From"] = sender
